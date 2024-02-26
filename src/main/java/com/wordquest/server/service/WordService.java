@@ -24,11 +24,15 @@ public class WordService {
         return wordRepository.findAll();
     }
 
+    public List<WordEntity> getAllByUserId(Long userId) {
+        return wordRepository.findAllByUserId(userId);
+    }
+
     public Optional<WordEntity> get(Long wordId) {
         return wordRepository.findById(wordId);
     }
 
-    public WordEntity addWordToUser(Long userId, Long wordId) {
+    public WordEntity save(Long userId, Long wordId) {
         userWordRepository.save(new UserWordEntity(userId, wordId));
         return wordRepository.findById(wordId).get();
     }

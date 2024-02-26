@@ -21,15 +21,20 @@ public class WordController {
     }
 
     @GetMapping("")
-    public List<WordEntity> listWords() {
+    public List<WordEntity> getWords() {
         return wordService.getAll();
     }
 
-    @PutMapping("/update")
+    @GetMapping("/user")
+    public List<WordEntity> getWordsByUser(@RequestParam Long userId) {
+        return wordService.getAllByUserId(userId);
+    }
+
+    @PutMapping("/user")
     public WordEntity addWordToUser(@RequestParam Long wordId, @RequestParam Long userId) {
         wordId = wordService.get(wordId).get().getId();
         userId = userService.get(userId).get().getId();
-        return wordService.addWordToUser(userId, wordId);
+        return wordService.save(userId, wordId);
     }
 
 }
