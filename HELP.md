@@ -4,7 +4,7 @@ brew link --overwrite --force postgresql@15
 pg_dump -U user -h localhost -p 5432 -d postgres -F c -f /dumpfilelocation
 createdb -U user -h localhost -p 5432 newdbname
 pg_restore -U user -h localhost -p 5432 -d restoreddb /dumpfilelocation
-pg_dump -U admin -h localhost:5432 -d postgres > ~/Desktop/psdb_dump.sql
+pg_dump -U admin -h localhost -p 5432 -d postgres > ~/Desktop/psdb_dump.sql
 
 API:
 [//]: # (get all words as in dictionary)
