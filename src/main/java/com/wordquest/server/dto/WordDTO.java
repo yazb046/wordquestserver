@@ -4,22 +4,15 @@ import com.wordquest.server.entity.Word;
 
 import java.io.Serializable;
 
-public class WordDTO implements Serializable {
-    private Word word;
+public class WordDTO extends Word implements Serializable {
     private String status;
 
-    public WordDTO(Word word, String status) {
-        this.word = word;
+    public WordDTO(Word aWord, String status) {
+        super.setId(aWord.getId());
+        super.setWord(aWord.getWord());
         this.status = status;
     }
 
-    public Word getWord() {
-        return word;
-    }
-
-    public void setWord(Word word) {
-        this.word = word;
-    }
 
     public String getStatus() {
         return status;
