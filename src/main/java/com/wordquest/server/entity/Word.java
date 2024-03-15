@@ -19,13 +19,11 @@ public class Word {
     private String langLevel;
 
     @JsonIgnore
-//    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH })
-//    @JoinTable(name = "\"T_USER_WORD\"", joinColumns = @JoinColumn(name = "word_id"),
-//            inverseJoinColumns = @JoinColumn(name = "user_id"))
-//    @ManyToMany(mappedBy = "id.wordId", cascade = CascadeType.ALL)
-    @OneToMany(mappedBy = "word")
+    @OneToMany(mappedBy = "word", fetch = FetchType.LAZY)
     private Set<UserWord> userWords;
 
+//    @OneToOne(mappedBy = "word", cascade = CascadeType.ALL)
+//    private String status;
 
     public Long getId() {
         return id;
@@ -58,4 +56,13 @@ public class Word {
     public void setLangLevel(String langLevel) {
         this.langLevel = langLevel;
     }
+
+    public Set<UserWord> getUserWords() {
+        return userWords;
+    }
+
+    public void setUserWords(Set<UserWord> userWords) {
+        this.userWords = userWords;
+    }
+
 }

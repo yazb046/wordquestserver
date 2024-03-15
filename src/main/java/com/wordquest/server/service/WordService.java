@@ -1,5 +1,6 @@
 package com.wordquest.server.service;
 
+import com.wordquest.server.dto.WordDTO;
 import com.wordquest.server.entity.UserWord;
 import com.wordquest.server.entity.Word;
 import com.wordquest.server.repository.UserWordRepository;
@@ -9,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -57,13 +59,13 @@ public class WordService {
         return wordRepository.findAllBy(userId, pageable);
     }
 
-    public Page<Word> getAllBy(long userId, String filter, int pageNo,
-                                               int pageSize, String sortBy, String direction) {
+    public Page<WordDTO> getAllBy(long userId, String filter, int pageNo,
+                                  int pageSize, String sortBy, String direction) {
         Pageable pageable = PageRequest.of(pageNo, pageSize, getSort(direction), sortBy);
-        return wordRepository.findAllBy(userId, filter,pageable);
+        return wordRepository.findAllByStatus(userId, filter, pageable);
     }
 
-    private Sort.Direction getSort(String direction){
+    private Sort.Direction getSort(String direction) {
         Sort.Direction sortDirection = Sort.Direction.ASC;
         if ("desc".equalsIgnoreCase(direction)) {
             sortDirection = Sort.Direction.DESC;

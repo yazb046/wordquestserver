@@ -18,6 +18,8 @@ public class UserWordPK implements Serializable {
         this.wordId = wordId;
     }
 
+    public UserWordPK(){}
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -28,5 +30,21 @@ public class UserWordPK implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(userId, wordId);
+    }
+
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
+    }
+
+    public long getWordId() {
+        return wordId;
+    }
+
+    public void setWordId(long wordId) {
+        this.wordId = wordId;
     }
 }

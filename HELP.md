@@ -11,16 +11,8 @@ API:
 GET http://localhost:8080/api/words
 
 [//]: # (get all words as in dictionary with pagination)
-GET http://localhost:8080/api/words/words?pageNo=1&pageSize=50&sortBy=word&direction=asc
+[//]: # (GET http://localhost:8080/api/words/words?pageNo=1&pageSize=50&sortBy=word&direction=asc)
 
-[//]: # (get all words by a user)
-GET http://localhost:8080/api/words/user?userId=1
+[//]: # (get all words by a user by filter with pagination and sorting)
+GET http://localhost:8080/api/words/searchBy?userId=1&filter=new&pageNo=0&pageSize=50&sortBy=word&direction=asc
 
-[//]: # (get all words by a user)
-http://localhost:8080/api/words/searchBy?userId=1&pageNo=1&pageSize=50&sortBy=word&direction=asc
-
-[//]: # (get all words by a user)
-http://localhost:8080/api/words/searchBy?userId=1&filter='new'&pageNo=1&pageSize=50&sortBy=word&direction=asc
-
-[//]: # (add a word to a user)
-PUT http://localhost:8080/api/words/user?userId=1&wordId=1040
