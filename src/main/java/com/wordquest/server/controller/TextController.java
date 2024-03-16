@@ -1,6 +1,6 @@
 package com.wordquest.server.controller;
 
-import com.wordquest.server.entity.TextEntity;
+import com.wordquest.server.entity.Text;
 import com.wordquest.server.service.TextService;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +17,7 @@ public class TextController {
     }
 
     @GetMapping("/user")
-    public List<TextEntity> getAllByUserWords(@RequestParam Long userId) {
-        return textService.getAllByActiveWordsAndByUserId(userId);
+    public List<Text> getAllByUserWords(@RequestParam Long userId, @RequestParam Long wordId) {
+        return textService.getAllByActiveWordsAndByUserId(userId, wordId);
     }
 }

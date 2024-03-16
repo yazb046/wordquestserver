@@ -3,13 +3,16 @@ package com.wordquest.server.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.Set;
 
 
 @Entity
 @Table(name = "\"T_WORD\"")
 @SecondaryTable(name = "\"T_USER_WORD\"", pkJoinColumns = @PrimaryKeyJoinColumn(name = "word_id"))
-public class Word {
+public class Word implements Serializable {
+    static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,8 +25,13 @@ public class Word {
     @OneToMany(mappedBy = "word", fetch = FetchType.LAZY)
     private Set<UserWord> userWords;
 
-//    @OneToOne(mappedBy = "word", cascade = CascadeType.ALL)
-//    private String status;
+    public Word() {
+    }
+
+    public Word(Long id, String word) {
+        this.id = id;
+        this.word = word;
+    }
 
     public Long getId() {
         return id;
