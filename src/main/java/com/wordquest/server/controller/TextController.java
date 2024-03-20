@@ -1,7 +1,10 @@
 package com.wordquest.server.controller;
 
+import com.wordquest.server.dto.TextDTO;
 import com.wordquest.server.entity.Text;
 import com.wordquest.server.service.TextService;
+import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,8 +19,13 @@ public class TextController {
         this.textService = textService;
     }
 
-    @GetMapping("/user")
-    public List<Text> getAllByUserWords(@RequestParam Long userId, @RequestParam Long wordId) {
-        return textService.getAllByActiveWordsAndByUserId(userId, wordId);
+    @GetMapping("/searchBy")
+    public Page<List<Text>> getAllByUserWords(@RequestParam long userId, @RequestParam String word,
+                                              @RequestParam String filter, @RequestParam int pageNo,
+                                              @RequestParam int pageSize, @RequestParam String sortBy,
+                                              @RequestParam String direction) {
+        return textService.getAllByActiveWordsAndByUserId(userId, word, filter, pageNo,
+                pageSize, sortBy, direction);
     }
+
 }

@@ -19,6 +19,17 @@ public class Text implements Serializable {
     @Column(name = "LINK_TO_AUDIO")
     private String linkToAudio;
 
+    @Column(name = "CONTEXT_TITLE")
+    private String contextTitle;
+    private Long version;
+    public Text() {
+    }
+
+    public Text(String text, Long version) {
+        this.text = text;
+        this.version = version;
+    }
+
     public Long getId() {
         return id;
     }
@@ -65,5 +76,13 @@ public class Text implements Serializable {
 
     public void setLinkToAudio(String linkToAudio) {
         this.linkToAudio = linkToAudio;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 }

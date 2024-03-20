@@ -22,7 +22,7 @@ public class Word implements Serializable {
     private String langLevel;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "word", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "word", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<UserWord> userWords;
 
     public Word() {
