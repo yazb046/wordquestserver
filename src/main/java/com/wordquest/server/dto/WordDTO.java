@@ -1,24 +1,24 @@
 package com.wordquest.server.dto;
 
-import com.wordquest.server.entity.Word;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
-public class WordDTO extends Word implements Serializable {
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Data
+public class WordDTO implements Serializable {
+
+    static final long serialVersionUID = 1L;
+
+    private Long id;
+    private String word;
+    private Boolean checked;
+    private String langLevel;
     private String status;
 
-    public WordDTO(Word aWord, String status) {
-        super.setId(aWord.getId());
-        super.setWord(aWord.getWord());
-        this.status = status;
-    }
-
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
 }

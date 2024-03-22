@@ -8,6 +8,7 @@ import java.util.Objects;
 
 @Embeddable
 public class UserWordPK implements Serializable {
+    static final long serialVersionUID = 1L;
     @Column(name = "user_id")
     private long userId;
     @Column(name = "word_id")

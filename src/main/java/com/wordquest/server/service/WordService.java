@@ -27,33 +27,11 @@ public class WordService {
         this.userWordRepository = userWordRepository;
     }
 
-    public List<Word> getAll() {
-        return wordRepository.findAll();
-    }
 
-    public Page<Word> getAllBy(int pageNo, int pageSize, String sortBy, String direction) {
-        Sort.Direction sortDirection = Sort.Direction.ASC;
-        if ("desc".equalsIgnoreCase(direction)) {
-            sortDirection = Sort.Direction.DESC;
-        }
-        Pageable pageable = PageRequest.of(pageNo, pageSize, sortDirection, sortBy);
-
+    public Page<Word> getAll(Pageable pageable) {
         return wordRepository.findAll(pageable);
     }
 
-
-    public Optional<Word> get(Long wordId) {
-        return wordRepository.findById(wordId);
-    }
-
-    public Word save(Long userId, Long wordId) {
-        userWordRepository.save(new UserWord(userId, wordId));
-        return wordRepository.findById(wordId).get();
-    }
-
-    public List<Word> getAllBy(Long userId) {
-        return wordRepository.findAllBy(userId);
-    }
 
     public Page<WordDTO> getAllBy(long userId, String filter, int pageNo,
                                   int pageSize, String sortBy, String direction) {
