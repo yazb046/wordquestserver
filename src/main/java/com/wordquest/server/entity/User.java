@@ -20,9 +20,9 @@ public class User {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<UserWord> userWords;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Card> cards;
+//    @JsonIgnore
+//    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    private List<Card> cards;
 
     public Long getId() {
         return id;
@@ -48,11 +48,5 @@ public class User {
         this.userWords = userWords;
     }
 
-    public List<Card> getCards() {
-        return cards;
-    }
 
-    public void setCards(List<Card> cards) {
-        this.cards = cards;
-    }
 }

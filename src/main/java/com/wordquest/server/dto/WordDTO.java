@@ -12,13 +12,10 @@ import java.io.Serializable;
 @Builder
 @Data
 public class WordDTO implements Serializable {
-
     static final long serialVersionUID = 1L;
-
     private Long id;
     private String word;
     private Boolean checked;
     private String langLevel;
     private String status;
-
 }

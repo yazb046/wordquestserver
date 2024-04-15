@@ -1,10 +1,16 @@
 package com.wordquest.server.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "\"T_USER_WORD\"")
 @Embeddable
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class UserWord {
 
     @EmbeddedId
@@ -21,43 +27,4 @@ public class UserWord {
     private Word word;
 
     private String status;
-
-    public UserWord() {
-    }
-
-    public UserWord(Long userId, Long wordId) {
-        id = new UserWordPK(userId, wordId);
-    }
-
-    public UserWordPK getId() {
-        return id;
-    }
-
-    public void setId(UserWordPK id) {
-        this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Word getWord() {
-        return word;
-    }
-
-    public void setWord(Word word) {
-        this.word = word;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
 }
