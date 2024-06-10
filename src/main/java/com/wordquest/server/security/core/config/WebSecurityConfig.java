@@ -55,7 +55,7 @@ public class WebSecurityConfig {
                 .addFilterAfter(jwtAuthenticationFilter, LoginAuthenticationFilter.class)
                 .authorizeHttpRequests(
                         (auth) -> auth
-                                .requestMatchers("/sign-up", "/login").permitAll()
+                                .requestMatchers("/sign-up", "/login", "/api/images/**").permitAll()
                                 .anyRequest().authenticated()
                 );
 

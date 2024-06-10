@@ -1,7 +1,7 @@
 package com.wordquest.server.cards.controller;
 
 import com.wordquest.server.cards.dto.WordDTO;
-import com.wordquest.server.cards.entity.Word;
+import com.wordquest.server.cards.model.Word;
 import com.wordquest.server.cards.service.WordService;
 import com.wordquest.server.cards.utils.Helper;
 import org.springframework.data.domain.Page;

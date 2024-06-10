@@ -1,6 +1,6 @@
 package com.wordquest.server.cards.controller;
 
-import com.wordquest.server.cards.entity.Text;
+import com.wordquest.server.cards.model.Text;
 import com.wordquest.server.cards.service.TextService;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;

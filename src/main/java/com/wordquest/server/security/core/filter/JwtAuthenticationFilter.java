@@ -10,6 +10,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -52,10 +53,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    private static final List<String> EXCLUDE_URLS = List.of("/sign-up", "/login");
+    private static final List<String> EXCLUDE_URLS = List.of("/sign-up", "/login", "/api/images/**");
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String path = request.getServletPath();
-        return EXCLUDE_URLS.contains(path);
+        return EXCLUDE_URLS.stream().anyMatch(url -> new AntPathRequestMatcher(url).matches(request));
     }
 }

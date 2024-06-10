@@ -1,8 +1,6 @@
-package com.wordquest.server.cards.repository;
+package com.wordquest.server.cards.model;
 
 import com.wordquest.server.cards.dto.WordDTO;
-import com.wordquest.server.cards.entity.UserWord;
-import com.wordquest.server.cards.entity.Word;
 import jakarta.persistence.criteria.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

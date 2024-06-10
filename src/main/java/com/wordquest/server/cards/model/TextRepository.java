@@ -1,6 +1,6 @@
-package com.wordquest.server.cards.repository;
+package com.wordquest.server.cards.model;
 
-import com.wordquest.server.cards.entity.Text;
+import com.wordquest.server.cards.model.Text;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

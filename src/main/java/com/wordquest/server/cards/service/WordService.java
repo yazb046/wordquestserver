@@ -1,13 +1,13 @@
 package com.wordquest.server.cards.service;
 
 import com.wordquest.server.cards.dto.WordDTO;
-import com.wordquest.server.cards.entity.User;
-import com.wordquest.server.cards.entity.UserWord;
-import com.wordquest.server.cards.entity.UserWordPK;
-import com.wordquest.server.cards.entity.Word;
-import com.wordquest.server.cards.repository.UserRepository;
-import com.wordquest.server.cards.repository.UserWordRepository;
-import com.wordquest.server.cards.repository.WordRepository;
+import com.wordquest.server.cards.model.User;
+import com.wordquest.server.cards.model.UserWord;
+import com.wordquest.server.cards.model.UserWordPK;
+import com.wordquest.server.cards.model.Word;
+import com.wordquest.server.cards.model.UserRepository;
+import com.wordquest.server.cards.model.UserWordRepository;
+import com.wordquest.server.cards.model.WordRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;

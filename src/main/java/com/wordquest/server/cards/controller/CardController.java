@@ -1,8 +1,11 @@
 package com.wordquest.server.cards.controller;
 
 import com.wordquest.server.cards.dto.CardDTO;
+import com.wordquest.server.cards.dto.ThemeDTO;
 import com.wordquest.server.cards.service.CardService;
+import com.wordquest.server.cards.service.ThemeService;
 import com.wordquest.server.cards.utils.Helper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,43 +14,75 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/cards")
 public class CardController {
 
-    private final CardService cardService;
+    @Autowired
+    private CardService cardService;
+    @Autowired
+    private ThemeService themeService;
 
-    public CardController(CardService cardService) {
-        this.cardService = cardService;
+    @GetMapping("/{themeId}")
+    public Page<CardDTO> getCardsBy(
+            @PathVariable Long themeId,
+            @RequestParam int pageNo,
+            @RequestParam int pageSize,
+            @RequestParam String sortBy,
+            @RequestParam String direction
+    ) {
+        return cardService.getAllCardsBy(themeId, Helper.buildPageable(pageNo, pageSize, direction, "id"));
     }
 
-
-    @GetMapping("")
-    public Page<CardDTO> getCardsBy(@RequestParam Long userId,
-                                       @RequestParam int pageNo,
-                                       @RequestParam int pageSize,
-                                       @RequestParam String sortBy,
-                                       @RequestParam String direction){
-        return cardService.getCardsBy(userId, Helper.buildPageable(pageNo, pageSize, direction, "id"));
+    @PostMapping("/{themeId}")
+    public CardDTO createCard(
+            @PathVariable Long themeId,
+            @RequestBody CardDTO card
+    ) {
+        return cardService.saveCard(themeId, card);
     }
 
-    @PostMapping("")
-    public ResponseEntity<String> createCard(
-            @RequestParam Long userId,
-            @RequestParam Long wordId,
-            @RequestBody CardDTO card) {
+    //    @PostMapping("")
+//    public ResponseEntity<String> createCard(
+//            @RequestParam Long userId,
+//            @RequestParam Long wordId,
+//            @RequestBody CardDTO card) {
+//        try {
+//            cardService.save(userId, wordId,card);
+//            return ResponseEntity.ok("The card is created successfully");
+//        } catch (RuntimeException ex) {
+//            return ResponseEntity.notFound().build();
+//        }
+//    }
+//
+//    @PostMapping("/update")
+//    public ResponseEntity<String> update(
+//            @RequestBody CardDTO card) {
+//        try {
+//            cardService.save(card);
+//            return ResponseEntity.ok("The card is updated successfully");
+//        } catch (RuntimeException ex) {
+//            return ResponseEntity.notFound().build();
+//        }
+//    }
+//
+    @PostMapping("/theme/{userId}")
+    public ResponseEntity<String> saveTheme(
+            @PathVariable Long userId,
+            @RequestBody ThemeDTO body) {
         try {
-            cardService.save(userId, wordId,card);
-            return ResponseEntity.ok("The card is created successfully");
+            themeService.save(userId, body.getTitle(), body.getDescription());
+            return ResponseEntity.ok("The theme is created");
         } catch (RuntimeException ex) {
             return ResponseEntity.notFound().build();
         }
     }
 
-    @PostMapping("/update")
-    public ResponseEntity<String> update(
-            @RequestBody CardDTO card) {
-        try {
-            cardService.save(card);
-            return ResponseEntity.ok("The card is updated successfully");
-        } catch (RuntimeException ex) {
-            return ResponseEntity.notFound().build();
-        }
+    @GetMapping("/theme/{userId}")
+    public Page<ThemeDTO> getThemes(
+            @PathVariable Long userId,
+            @RequestParam int pageNo,
+            @RequestParam int pageSize,
+            @RequestParam String sortBy,
+            @RequestParam String direction
+    ) {
+        return themeService
+                .findAllBy(userId, Helper.buildPageable(pageNo, pageSize, direction, sortBy));
     }
 }

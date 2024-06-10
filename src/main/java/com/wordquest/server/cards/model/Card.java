@@ -1,4 +1,4 @@
-package com.wordquest.server.cards.entity;
+package com.wordquest.server.cards.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -14,19 +14,11 @@ import lombok.NoArgsConstructor;
 @Data
 public class Card {
     static final long serialVersionUID = 2L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @EmbeddedId
+    private CardPK pkid;
     private String title;
     private String content;
     @Column(name = "is_archived")
     private Boolean isArchived;
-//    @ManyToOne
-//    @JoinColumn(name = "user_id", referencedColumnName = "id")
-//    private User user;
-    @Column(name = "user_id")
-    private Long userId;
-    @Column(name = "word_id")
-    private Long wordId;
-    private Long version;
+    private Long themeId;
 }

@@ -1,4 +1,4 @@
-package com.wordquest.server.cards.entity;
+package com.wordquest.server.cards.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;

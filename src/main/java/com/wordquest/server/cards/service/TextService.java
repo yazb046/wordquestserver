@@ -1,9 +1,9 @@
 package com.wordquest.server.cards.service;
 
-import com.wordquest.server.cards.entity.Text;
-import com.wordquest.server.cards.repository.TextRepository;
-import com.wordquest.server.cards.repository.UserRepository;
-import com.wordquest.server.cards.repository.WordRepository;
+import com.wordquest.server.cards.model.Text;
+import com.wordquest.server.cards.model.TextRepository;
+import com.wordquest.server.cards.model.UserRepository;
+import com.wordquest.server.cards.model.WordRepository;
 import com.wordquest.server.cards.utils.Helper;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;

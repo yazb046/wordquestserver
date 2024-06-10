@@ -1,4 +1,4 @@
-package com.wordquest.server.cards.entity;
+package com.wordquest.server.cards.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
