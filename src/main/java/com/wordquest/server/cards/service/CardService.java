@@ -3,10 +3,17 @@ package com.wordquest.server.cards.service;
 import com.wordquest.server.cards.dto.CardDTO;
 import com.wordquest.server.cards.model.*;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CardService {
@@ -15,11 +22,14 @@ public class CardService {
     private final WordRepository wordRepository;
     private final ThemeRepository themeRepository;
 
-    public CardService(CardRepository cardRepository, UserRepository userRepository, WordRepository wordRepository, ThemeRepository themeRepository) {
+    private final CardOrderRepository cardOrderRepository;
+
+    public CardService(CardRepository cardRepository, UserRepository userRepository, WordRepository wordRepository, ThemeRepository themeRepository, CardOrderRepository cardOrderRepository) {
         this.cardRepository = cardRepository;
         this.userRepository = userRepository;
         this.wordRepository = wordRepository;
         this.themeRepository = themeRepository;
+        this.cardOrderRepository = cardOrderRepository;
     }
 
 
@@ -134,5 +144,58 @@ public class CardService {
                 .content(temp.getContent())
                 .title(temp.getTitle())
                 .build();
+    }
+
+    public void saveCardOrder(Long themeId, List<Long> ids) {
+        if (themeRepository.existsById(themeId)) {
+            ids = ids.stream()
+                    .filter(id -> id != null)
+                    .collect(Collectors.toList());
+            if (!ids.isEmpty()) {
+                cardOrderRepository.save(
+                        CardOrder.builder()
+                                .themeId(themeId)
+                                .topCardIds(ids)
+                                .build()
+                );
+            }
+        }
+    }
+
+    public Page<CardDTO> getAllCardsOrderedBy(Long themeId, Pageable pageable) {
+        if (!themeRepository.existsById(themeId)) {
+            throw new RuntimeException("Bad input");
+        }
+        Page<CardDTO> result = cardRepository
+                .findAllLatestByThemeId(themeId, pageable)
+                .map(e -> CardDTO.builder()
+                        .id(e.getPkid().getId())
+                        .title(e.getTitle())
+                        .content(e.getContent())
+                        .build());
+
+        Optional<CardOrder> order = cardOrderRepository.findById(themeId);
+        if (order.isEmpty()) {
+            return result;
+        } else {
+            return sortCardDTOPageById(result, order.get().getTopCardIds());
+        }
+    }
+
+    public Page<CardDTO> sortCardDTOPageById(Page<CardDTO> result, List<Long> sortedIds) {
+        // Step 1: Extract the list of CardDTO from the Page
+        List<CardDTO> cardDTOList = result.getContent();
+
+        // Step 2: Create a map from the provided list of IDs to their positions
+        Map<Long, Integer> idPositionMap = sortedIds.stream()
+                .collect(Collectors.toMap(id -> id, sortedIds::indexOf));
+
+        // Step 3: Sort the list of CardDTO based on the order of the IDs from the provided list
+        List<CardDTO> sortedCardDTOList = cardDTOList.stream()
+                .sorted(Comparator.comparingInt(a -> idPositionMap.get(a.getId())))
+                .collect(Collectors.toList());
+
+        // Step 4: Convert the sorted list back into a Page<CardDTO>
+        return new PageImpl<>(sortedCardDTOList, result.getPageable(), result.getTotalElements());
     }
 }

@@ -6,21 +6,22 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
-@Table(name = "\"T_CARD\"")
+@Table(name = "\"T_CARD_ORDER\"")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Data
-public class Card {
+public class CardOrder {
     static final long serialVersionUID = 2L;
-    @EmbeddedId
-    private CardPK pkid;
-    @Column(length = 240)
-    private String title;
-    @Column(length = 2400)
-    private String content;
-    @Column(name = "is_archived")
-    private Boolean isArchived;
+
+    @Id
     private Long themeId;
+
+    @ElementCollection
+    @CollectionTable(name = "T_CARD_ORDER_TOP_IDS", joinColumns = @JoinColumn(name = "item_id"))
+    @Column(name = "item")
+    private List<Long> topCardIds;
 }

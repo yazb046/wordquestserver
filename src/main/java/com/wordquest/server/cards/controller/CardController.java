@@ -10,6 +10,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/cards")
 public class CardController {
@@ -27,7 +29,7 @@ public class CardController {
             @RequestParam String sortBy,
             @RequestParam String direction
     ) {
-        return cardService.getAllCardsBy(themeId, Helper.buildPageable(pageNo, pageSize, direction, "id"));
+        return cardService.getAllCardsOrderedBy(themeId, Helper.buildPageable(pageNo, pageSize, direction, "id"));
     }
 
     @PostMapping("/{themeId}")
@@ -36,6 +38,16 @@ public class CardController {
             @RequestBody CardDTO card
     ) {
         return cardService.saveCard(themeId, card);
+    }
+
+    @PostMapping("/order/{themeId}")
+    public ResponseEntity saveCardOrder(
+            @PathVariable Long themeId,
+            @RequestBody List<Long> ids
+    ) {
+
+        cardService.saveCardOrder(themeId, ids);
+        return ResponseEntity.ok().build();
     }
 
     //    @PostMapping("")
