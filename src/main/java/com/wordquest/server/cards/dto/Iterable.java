@@ -11,11 +11,10 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Builder
 @Data
-public class WordDTO implements Serializable {
+public class Iterable implements Serializable {
     static final long serialVersionUID = 1L;
     private Long id;
-    private String word;
-    private Boolean checked;
-    private String langLevel;
-    private String status;
+    private String title;
+    private String content;
+    private Details details;
 }

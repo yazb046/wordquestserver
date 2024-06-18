@@ -32,8 +32,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException
     {
         String jwt = request.getHeader("Authorization");
-
-
         Claims claims = Jwts.parserBuilder()
                 .setSigningKey(secretKey)
                 .build()

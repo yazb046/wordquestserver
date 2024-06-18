@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -41,6 +42,14 @@ public interface CardRepository extends JpaRepository<Card, Long>, JpaSpecificat
     )
     Page<Card> findAllLatestByThemeId(@Param("themeId") Long themeId, Pageable pageable);
 
+    @Query(
+            "SELECT c FROM Card c WHERE themeId = :themeId " +
+                    "AND c.pkid.version = (SELECT MAX(c2.pkid.version) " +
+                    "FROM Card c2 WHERE c2.pkid.id = c.pkid.id) " +
+                    "ORDER BY c.index ASC, c.pkid.id ASC"
+    )
+    Page<Card> findCardsByThemeIdOrdered(@Param("themeId") Long themeId, Pageable pageable);
+
     @Query("SELECT MAX(pkid.id) FROM Card c")
     Optional<Long> findLastId();
 
@@ -51,4 +60,12 @@ public interface CardRepository extends JpaRepository<Card, Long>, JpaSpecificat
                     "WHERE c2.pkid.id = :id) "
     )
     Optional<Card> findLatestById(@Param("id") Long id);
+
+    @Query(
+            "SELECT c FROM Card c WHERE c.pkid.id IN :ids AND " +
+                    "c.pkid.version = (SELECT MAX(c2.pkid.version) " +
+                    "FROM Card c2 " +
+                    "WHERE c2.pkid.id = c.pkid.id) "
+    )
+    Optional<List<Card>> findAllByIdsWithLatestVersions(@Param("ids") List<Long> ids);
 }

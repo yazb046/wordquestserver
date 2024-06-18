@@ -1,6 +1,5 @@
 package com.wordquest.server.cards.dto;
 
-import com.wordquest.server.cards.model.Word;
 import lombok.*;
 
 import java.io.Serializable;
