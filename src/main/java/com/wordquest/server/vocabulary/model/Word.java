@@ -26,12 +26,6 @@ public class Word implements Serializable {
     private Boolean checked;
     @Column(name = "LANG_LEVEL")
     private String langLevel;
-
-//    @JsonIgnore
-//    @OneToMany(mappedBy = "word", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    private Set<UserWord> userWords;
-
-
     @JsonIgnore
     @ManyToOne
     private Dictionary dictionary;

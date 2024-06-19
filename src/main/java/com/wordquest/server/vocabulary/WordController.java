@@ -23,12 +23,6 @@ public class WordController {
         this.wordService = wordService;
     }
 
-//    @GetMapping("")
-//    public Page<Word> getWords(@RequestParam int pageNo, @RequestParam int pageSize,
-//                               @RequestParam String sortBy, @RequestParam String direction) {
-//
-//        return wordService.getAll(Helper.buildPageable(pageNo, pageSize, direction, sortBy));
-//    }
 
     @GetMapping("/searchBy")
     public ResponseEntity<Page<Iterable>> getWordsBy
@@ -70,14 +64,6 @@ public class WordController {
                 Optional.of(wordService.getDictionaries())
         );
     }
-
-//    @GetMapping("/find")
-//    public ResponseEntity<List<Word>> getWordsBy(
-//            @RequestParam String wordLetters) {
-//        return ResponseEntity.of(
-//                wordService.getAllBy(wordLetters)
-//        );
-//    }
 
     @PostMapping("")
     public void saveWordsBy(@RequestParam Long id, @RequestBody Set<Long> wordIds) {

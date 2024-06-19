@@ -20,7 +20,6 @@ public class Dictionary implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String description;
-
     @OneToMany
     private List<Word> words;
 }

@@ -28,71 +28,6 @@ public class CardService {
     }
 
 
-//    public void save(Long userId, Long wordId, CardDTO cardDTO) {
-//
-//        Optional<User> isUser = userRepository.findById(userId);
-//        if (isUser.isEmpty()) {
-//            throw new RuntimeException("No such user");
-//        }
-//
-//        Optional<Card> isCard = cardRepository.findByIdAndUserId(cardDTO.getId(), isUser.get().getId());
-//        if (isCard.isPresent()) {
-//            Card card = isCard.get();
-//            card.setTitle(cardDTO.getTitle());
-//            card.setContent(cardDTO.getContent());
-//            card.setIsArchived(cardDTO.getIsArchived());
-//            card.setVersion(card.getVersion() + 1L);
-//            cardRepository.save(card);
-//        } else {
-//            Card card = Card.builder()
-////                    .user(isUser.get())
-//                    .userId(userId)
-//                    .wordId(wordId)
-//                    .title(cardDTO.getTitle())
-//                    .content(cardDTO.getContent())
-//                    .isArchived(false)
-//                    .version(1L)
-//                    .build();
-//            cardRepository.save(card);
-//        }
-//    }
-//
-//    public void save(CardDTO cardDTO) {
-//
-//        Optional<User> isUser = userRepository.findById(cardDTO.getUserId());
-//        if (isUser.isEmpty()) {
-//            throw new RuntimeException("No such user");
-//        }
-//
-//        Optional<Card> isCard = cardRepository.findByIdAndUserId(cardDTO.getId(), isUser.get().getId());
-//        if (!isCard.isPresent()) throw new RuntimeException("No such card");
-//        Card card = isCard.get();
-//        card.setTitle(cardDTO.getTitle());
-//        card.setContent(cardDTO.getContent());
-//        card.setIsArchived(cardDTO.getIsArchived());
-//        card.setVersion(card.getVersion() + 1L);
-//        cardRepository.save(card);
-//    }
-//
-//    public Page<CardDTO> getCardsBy(Long userId, Pageable pageable) {
-//        Optional<User> isUser = userRepository.findById(userId);
-//        if (isUser.isEmpty()) {
-//            throw new RuntimeException("No such user");
-//        }
-//        Page<Card> result = cardRepository.findAllByUserId(isUser.get().getId(), pageable);
-//        Set<Long> wordIds = new HashSet(result.getContent().stream().map(card -> card.getWordId()).toList());
-//        List<Word> words =  wordRepository.findAllWordsBy(wordIds);
-//        List<CardDTO> temp = result.getContent().stream().map(card -> CardDTO.builder()
-//                .id(card.getId())
-//                .title(card.getTitle())
-//                .content(card.getContent())
-//                .word(words.stream().filter(e-> Objects.equals(e.getId(), card.getWordId())).findFirst().orElse(null))
-//                .isArchived(card.getIsArchived())
-//                .version(card.getVersion())
-//                .userId(card.getUserId()).build()).toList();
-//        return new PageImpl<>(temp, result.getPageable(), result.getTotalElements());
-//    }
-
     public Page<CardDTO> getAllCardsBy(Long themeId, Pageable pageable) {
         if (themeId == 0) {
             throw new RuntimeException("Bad input");
@@ -182,24 +117,4 @@ public class CardService {
                 .collect(Collectors.toList());
 
     }
-//    public List<CardDTO> sortCardDTOPageById(Page<CardDTO> result, List<Long> sortedIds) {
-//        List<CardDTO> cardDTOList = result.getContent();
-//
-//        Map<Long, Integer> idPositionMap = sortedIds.stream()
-//                .collect(Collectors.toMap(id -> id, sortedIds::indexOf));
-//
-//        List<CardDTO> top = cardDTOList.stream()
-//                .filter(a -> idPositionMap.containsKey(a.getId()))
-//                .sorted(Comparator.comparingInt(a -> idPositionMap.get(a.getId())))
-//                .collect(Collectors.toList());
-//
-//        List<CardDTO> bottom = cardDTOList.stream()
-//                .filter(a -> !idPositionMap.containsKey(a.getId()))
-//                .collect(Collectors.toList());
-//
-//        top.addAll(bottom);
-//
-//        // Step 4: Convert the sorted list back into a Page<CardDTO>
-//        return new PageImpl<>(top, result.getPageable(), result.getTotalElements());
-//    }
 }

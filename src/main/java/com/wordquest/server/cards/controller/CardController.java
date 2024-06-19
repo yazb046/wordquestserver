@@ -50,30 +50,6 @@ public class CardController {
         return ResponseEntity.ok().build();
     }
 
-    //    @PostMapping("")
-//    public ResponseEntity<String> createCard(
-//            @RequestParam Long userId,
-//            @RequestParam Long wordId,
-//            @RequestBody CardDTO card) {
-//        try {
-//            cardService.save(userId, wordId,card);
-//            return ResponseEntity.ok("The card is created successfully");
-//        } catch (RuntimeException ex) {
-//            return ResponseEntity.notFound().build();
-//        }
-//    }
-//
-//    @PostMapping("/update")
-//    public ResponseEntity<String> update(
-//            @RequestBody CardDTO card) {
-//        try {
-//            cardService.save(card);
-//            return ResponseEntity.ok("The card is updated successfully");
-//        } catch (RuntimeException ex) {
-//            return ResponseEntity.notFound().build();
-//        }
-//    }
-//
     @PostMapping("/theme/{userId}")
     public ResponseEntity<String> saveTheme(
             @PathVariable Long userId,
