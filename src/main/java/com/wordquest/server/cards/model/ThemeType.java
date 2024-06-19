@@ -7,12 +7,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "\"T_ADD_ON\"")
+@Table(name = "\"T_THEME_TYPE\"")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Data
-public class AddOn {
+public class ThemeType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

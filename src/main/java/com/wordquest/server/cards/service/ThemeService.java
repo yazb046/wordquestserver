@@ -3,8 +3,8 @@ package com.wordquest.server.cards.service;
 import com.wordquest.server.cards.dto.Details;
 import com.wordquest.server.cards.dto.Iterable;
 import com.wordquest.server.cards.dto.ThemeDTO;
-import com.wordquest.server.cards.model.AddOn;
-import com.wordquest.server.cards.model.AddOnRepository;
+import com.wordquest.server.cards.model.ThemeType;
+import com.wordquest.server.cards.model.ThemeTypeRepository;
 import com.wordquest.server.cards.model.Theme;
 import com.wordquest.server.cards.model.ThemeRepository;
 import com.wordquest.server.security.Security;
@@ -25,19 +25,19 @@ public class ThemeService {
     @Autowired
     private ThemeRepository themeRepository;
     @Autowired
-    private AddOnRepository addOnRepository;
+    private ThemeTypeRepository themeTypeRepository;
     @Autowired
     private Security security;
 
     public void save(Long userId, ThemeDTO theme) {
         validateUser(userId);
-        Optional<AddOn> addOn = addOnRepository.findById(theme.getAddOn());
+        Optional<ThemeType> addOn = themeTypeRepository.findById(theme.getThemeTypeId());
         if (addOn.isPresent()) {
             themeRepository.save(
                     Theme.builder().userId(userId)
                             .title(theme.getTitle())
                             .description(theme.getDescription())
-                            .addOn(addOn.get())
+                            .themeType(addOn.get())
                             .build()
             );
         }
@@ -52,7 +52,7 @@ public class ThemeService {
                         .content(e.getDescription())
                         .title(e.getTitle())
                         .details(Details.builder()
-                                .type(e.getAddOn() == null ? "" : e.getAddOn().getDescription()
+                                .type(e.getThemeType() == null ? "" : e.getThemeType().getDescription()
                                 ).build())
                         .build());
     }
@@ -63,7 +63,7 @@ public class ThemeService {
         }
     }
 
-    public List<AddOn> getAddOns() {
-        return addOnRepository.findAll();
+    public List<ThemeType> getAllThemeTypes() {
+        return themeTypeRepository.findAll();
     }
 }

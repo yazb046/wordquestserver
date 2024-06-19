@@ -22,5 +22,5 @@ public class Theme {
     private Long userId;
 
     @ManyToOne
-    private AddOn addOn;
+    private ThemeType themeType;
 }

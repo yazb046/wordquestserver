@@ -3,7 +3,7 @@ package com.wordquest.server.cards.controller;
 import com.wordquest.server.cards.dto.CardDTO;
 import com.wordquest.server.cards.dto.Iterable;
 import com.wordquest.server.cards.dto.ThemeDTO;
-import com.wordquest.server.cards.model.AddOn;
+import com.wordquest.server.cards.model.ThemeType;
 import com.wordquest.server.cards.service.CardService;
 import com.wordquest.server.cards.service.ThemeService;
 import com.wordquest.server.cards.utils.Helper;
@@ -86,10 +86,10 @@ public class CardController {
         }
     }
 
-    @GetMapping("/theme/addOns")
-    public ResponseEntity<List<AddOn>> getAddOns() {
+    @GetMapping("/themeTypes")
+    public ResponseEntity<List<ThemeType>> getThemeTypes() {
         try {
-            return ResponseEntity.ok(themeService.getAddOns());
+            return ResponseEntity.ok(themeService.getAllThemeTypes());
         } catch (RuntimeException ex) {
             return ResponseEntity.notFound().build();
         }
