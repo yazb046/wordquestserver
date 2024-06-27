@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.Set;
 
 @Entity
-@Table(name = "SECURITY_USER", schema = "SECURITY")
+@Table(name = "SECURITY_USER")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -27,7 +27,7 @@ public class SecurityUser implements UserDetails {
     private String password;
     private String email;
     @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
-    @JoinTable(schema = "SECURITY", name = "security_users_authorities", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+    @JoinTable(name = "security_users_authorities", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
     private Set<SecurityAuthority> authorities;
 
