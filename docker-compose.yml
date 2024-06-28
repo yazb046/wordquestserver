@@ -6,48 +6,48 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8080:8080"
+      - ${APP_PORTS}
     environment:
       SPRING_PROFILES_ACTIVE: prod
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/postgres
-      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USERNAME}
-      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PWD}
-      SPRING_DATA_MONGODB_URI: mongodb://mongo:27017/imaginary
+      SPRING_DATASOURCE_URL: ${SQL_DB_URI}
+      SPRING_DATASOURCE_USERNAME: ${SQL_DB_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SQL_DB_PWD}
+      SPRING_DATA_MONGODB_URI: ${NOSQL_DB_URI}
     depends_on:
-      - postgres
-      - mongo
+      - sqldb
+      - nosqldb
     volumes:
-      - ./logs:/app/logs
+      - ${APP_VOLUMES}
     env_file:
       - .env
 
-  postgres:
-    image: postgres:16
+  sqldb:
+    image: ${SQL_DB_IMAGE}
     environment:
-      POSTGRES_DB: postgres
-      POSTGRES_USER: ${POSTGRES_USERNAME}
-      POSTGRES_PASSWORD: ${POSTGRES_PWD}
+      POSTGRES_DB: ${SQL_DB_NAME}
+      POSTGRES_USER: ${SQL_DB_USERNAME}
+      POSTGRES_PASSWORD: ${SQL_DB_PWD}
     ports:
-      - "5433:5432"
+      - ${SQL_DB_PORTS}
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - ${SQL_DB_VOLUMES}
     env_file:
       - .env
 
-  mongo:
-    image: mongo:7.0.11
+  nosqldb:
+    image: ${NOSQL_DB_IMAGE}
     environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      MONGO_INITDB_ROOT_USERNAME: ${NOSQL_DB_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${NOSQL_DB_PASSWORD}
     ports:
-      - "27018:27017"
+      - ${NOSQL_DB_PORTS}
     volumes:
-      - mongo_data:/data/db
+      - ${NOSQL_DB_VOLUMES}
     env_file:
       - .env
 
 volumes:
-  postgres_data:
+  sql_data:
     driver: local
-  mongo_data:
+  nosql_data:
     driver: local
