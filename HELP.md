@@ -1,1 +1,0 @@
-docker-compose exec wordquestserver_sqldb_1 psql -U admin appdb
