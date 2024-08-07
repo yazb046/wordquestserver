@@ -3,10 +3,10 @@ package com.wordquest.server.cards.service;
 import com.wordquest.server.cards.dto.Details;
 import com.wordquest.server.cards.dto.Iterable;
 import com.wordquest.server.cards.dto.ThemeDTO;
-import com.wordquest.server.cards.model.ThemeType;
-import com.wordquest.server.cards.model.ThemeTypeRepository;
-import com.wordquest.server.cards.model.Theme;
-import com.wordquest.server.cards.model.ThemeRepository;
+import com.wordquest.server.cards.model.GoalType;
+import com.wordquest.server.cards.model.GoalTypeRepository;
+import com.wordquest.server.cards.model.Goal;
+import com.wordquest.server.cards.model.GoalsRepository;
 import com.wordquest.server.security.Security;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,23 +21,25 @@ import java.util.Optional;
 
 @Service
 @Slf4j
+@Deprecated
+//TODO replace with goalService
 public class ThemeService {
     @Autowired
-    private ThemeRepository themeRepository;
+    private GoalsRepository goalsRepository;
     @Autowired
-    private ThemeTypeRepository themeTypeRepository;
+    private GoalTypeRepository goalTypeRepository;
     @Autowired
     private Security security;
 
     public void save(Long userId, ThemeDTO theme) {
         validateUser(userId);
-        Optional<ThemeType> addOn = themeTypeRepository.findById(theme.getThemeTypeId());
+        Optional<GoalType> addOn = goalTypeRepository.findById(theme.getThemeTypeId());
         if (addOn.isPresent()) {
-            themeRepository.save(
-                    Theme.builder().userId(userId)
+            goalsRepository.save(
+                    Goal.builder().userId(userId)
                             .title(theme.getTitle())
                             .description(theme.getDescription())
-                            .themeType(addOn.get())
+                            .goalType(addOn.get())
                             .build()
             );
         }
@@ -46,13 +48,13 @@ public class ThemeService {
 
     public Page<Iterable> findAllBy(Long userId, Pageable pageable) {
         validateUser(userId);
-        return themeRepository.findAllByUserId(userId, pageable)
+        return goalsRepository.findAllByUserId(userId, pageable)
                 .map(e -> Iterable.builder()
                         .id(e.getId())
                         .content(e.getDescription())
                         .title(e.getTitle())
                         .details(Details.builder()
-                                .type(e.getThemeType() == null ? "" : e.getThemeType().getDescription()
+                                .type(e.getGoalType() == null ? "" : e.getGoalType().getDescription()
                                 ).build())
                         .build());
     }
@@ -63,7 +65,7 @@ public class ThemeService {
         }
     }
 
-    public List<ThemeType> getAllThemeTypes() {
-        return themeTypeRepository.findAll();
+    public List<GoalType> getAllThemeTypes() {
+        return goalTypeRepository.findAll();
     }
 }

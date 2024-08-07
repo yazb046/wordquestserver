@@ -4,7 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ThemeRepository extends JpaRepository<Theme, Long> {
+public interface GoalsRepository extends JpaRepository<Goal, Long> {
 
-    Page<Theme> findAllByUserId(Long userId, Pageable pageable);
+    Page<Goal> findAllByUserId(Long userId, Pageable pageable);
 }

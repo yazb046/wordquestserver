@@ -11,7 +11,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class CardPK implements Serializable {
+public class StepPK implements Serializable {
 
     static final long serialVersionUID = 1123L;
 

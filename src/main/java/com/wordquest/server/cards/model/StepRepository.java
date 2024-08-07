@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 
-public interface CardRepository extends JpaRepository<Card, Long>, JpaSpecificationExecutor<Card> {
+public interface StepRepository extends JpaRepository<Step, Long>, JpaSpecificationExecutor<Step> {
 
 //    default Page<Card> findAllLatestByThemeId(Long themeId, Pageable pageable) {
 //
@@ -34,38 +34,38 @@ public interface CardRepository extends JpaRepository<Card, Long>, JpaSpecificat
 //    }
 
     @Query(
-            "SELECT c FROM Card c WHERE themeId = :themeId " +
+            "SELECT c FROM Step c WHERE goalId = :goalId " +
                     "AND c.pkid.version = ( SELECT MAX(c2.pkid.version) " +
-                    "FROM Card c2 " +
+                    "FROM Step c2 " +
                     "WHERE c2.pkid.id = c.pkid.id) " +
                     "ORDER BY c.pkid.id DESC "
     )
-    Page<Card> findAllLatestByThemeId(@Param("themeId") Long themeId, Pageable pageable);
+    Page<Step> findAllLatestByThemeId(@Param("goalId") Long goalId, Pageable pageable);
 
     @Query(
-            "SELECT c FROM Card c WHERE themeId = :themeId " +
+            "SELECT c FROM Step c WHERE goalId = :goalId " +
                     "AND c.pkid.version = (SELECT MAX(c2.pkid.version) " +
-                    "FROM Card c2 WHERE c2.pkid.id = c.pkid.id) " +
+                    "FROM Step c2 WHERE c2.pkid.id = c.pkid.id) " +
                     "ORDER BY c.index ASC, c.pkid.id ASC"
     )
-    Page<Card> findCardsByThemeIdOrdered(@Param("themeId") Long themeId, Pageable pageable);
+    Page<Step> findCardsByThemeIdOrdered(@Param("goalId") Long goalId, Pageable pageable);
 
-    @Query("SELECT MAX(pkid.id) FROM Card c")
+    @Query("SELECT MAX(pkid.id) FROM Step c")
     Optional<Long> findLastId();
 
     @Query(
-            "SELECT c FROM Card c WHERE c.pkid.id= :id AND " +
+            "SELECT c FROM Step c WHERE c.pkid.id= :id AND " +
                     "c.pkid.version = (SELECT MAX(c2.pkid.version) " +
-                    "FROM Card c2 " +
+                    "FROM Step c2 " +
                     "WHERE c2.pkid.id = :id) "
     )
-    Optional<Card> findLatestById(@Param("id") Long id);
+    Optional<Step> findLatestById(@Param("id") Long id);
 
     @Query(
-            "SELECT c FROM Card c WHERE c.pkid.id IN :ids AND " +
+            "SELECT c FROM Step c WHERE c.pkid.id IN :ids AND " +
                     "c.pkid.version = (SELECT MAX(c2.pkid.version) " +
-                    "FROM Card c2 " +
+                    "FROM Step c2 " +
                     "WHERE c2.pkid.id = c.pkid.id) "
     )
-    Optional<List<Card>> findAllByIdsWithLatestVersions(@Param("ids") List<Long> ids);
+    Optional<List<Step>> findAllByIdsWithLatestVersions(@Param("ids") List<Long> ids);
 }

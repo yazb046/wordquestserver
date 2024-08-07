@@ -3,7 +3,7 @@ package com.wordquest.server.cards.controller;
 import com.wordquest.server.cards.dto.CardDTO;
 import com.wordquest.server.cards.dto.Iterable;
 import com.wordquest.server.cards.dto.ThemeDTO;
-import com.wordquest.server.cards.model.ThemeType;
+import com.wordquest.server.cards.model.GoalType;
 import com.wordquest.server.cards.service.CardService;
 import com.wordquest.server.cards.service.ThemeService;
 import com.wordquest.server.cards.utils.Helper;
@@ -16,6 +16,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/cards")
+@Deprecated
+//TODO replace with proper step and goal controllers
 public class CardController {
 
     @Autowired
@@ -63,7 +65,7 @@ public class CardController {
     }
 
     @GetMapping("/themeTypes")
-    public ResponseEntity<List<ThemeType>> getThemeTypes() {
+    public ResponseEntity<List<GoalType>> getThemeTypes() {
         try {
             return ResponseEntity.ok(themeService.getAllThemeTypes());
         } catch (RuntimeException ex) {

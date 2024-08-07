@@ -15,16 +15,18 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Deprecated
+//TODO replace with stepService
 public class CardService {
-    private final CardRepository cardRepository;
+    private final StepRepository stepRepository;
     private final WordRepository wordRepository;
-    private final ThemeRepository themeRepository;
+    private final GoalsRepository goalsRepository;
 
-    public CardService(CardRepository cardRepository,
-                       WordRepository wordRepository, ThemeRepository themeRepository) {
-        this.cardRepository = cardRepository;
+    public CardService(StepRepository stepRepository,
+                       WordRepository wordRepository, GoalsRepository goalsRepository) {
+        this.stepRepository = stepRepository;
         this.wordRepository = wordRepository;
-        this.themeRepository = themeRepository;
+        this.goalsRepository = goalsRepository;
     }
 
 
@@ -32,7 +34,7 @@ public class CardService {
         if (themeId == 0) {
             throw new RuntimeException("Bad input");
         }
-        return cardRepository.findAllLatestByThemeId(themeId, pageable)
+        return stepRepository.findAllLatestByThemeId(themeId, pageable)
                 .map(e -> CardDTO.builder()
                         .id(e.getPkid().getId())
                         .title(e.getTitle())
@@ -42,33 +44,33 @@ public class CardService {
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public CardDTO saveCard(Long themeId, CardDTO cardDTO) {
-        if (!themeRepository.existsById(themeId)) {
+        if (!goalsRepository.existsById(themeId)) {
             throw new RuntimeException("Bad input");
         }
-        Card temp;
+        Step temp;
         if (cardDTO.getId() == 0) {
-            Long lastId = cardRepository.findLastId().orElse(0L);
-            temp = Card.builder()
-                    .pkid(new CardPK(lastId + 1L, 1))
-                    .themeId(themeId)
+            Long lastId = stepRepository.findLastId().orElse(0L);
+            temp = Step.builder()
+                    .pkid(new StepPK(lastId + 1L, 1))
+                    .goalId(themeId)
                     .title(cardDTO.getTitle())
                     .content(cardDTO.getContent())
                     .build();
         } else {
-            Card savedCard = cardRepository.findLatestById(cardDTO.getId())
+            Step savedStep = stepRepository.findLatestById(cardDTO.getId())
                     .orElseThrow(() -> new RuntimeException("Bad input"));
-            temp = Card.builder()
+            temp = Step.builder()
                     .pkid(
-                            new CardPK(
-                                    savedCard.getPkid().getId(),
-                                    savedCard.getPkid().getVersion() + 1))
-                    .themeId(themeId)
+                            new StepPK(
+                                    savedStep.getPkid().getId(),
+                                    savedStep.getPkid().getVersion() + 1))
+                    .goalId(themeId)
                     .title(cardDTO.getTitle())
                     .content(cardDTO.getContent())
                     .build();
         }
 
-        temp = cardRepository.save(temp);
+        temp = stepRepository.save(temp);
         return CardDTO.builder()
                 .id(temp.getPkid().getId())
                 .content(temp.getContent())
@@ -78,24 +80,24 @@ public class CardService {
 
     @Transactional(isolation = Isolation.REPEATABLE_READ)
     public void saveCardOrder(Long themeId, List<Long> ids) {
-        if (themeRepository.existsById(themeId)) {
+        if (goalsRepository.existsById(themeId)) {
             ids = ids.stream()
                     .filter(id -> id != null)
                     .collect(Collectors.toList());
             if (!ids.isEmpty()) {
-                Optional<List<Card>> cards = cardRepository.findAllByIdsWithLatestVersions(ids);
+                Optional<List<Step>> cards = stepRepository.findAllByIdsWithLatestVersions(ids);
                 if (cards.isPresent()) {
-                    cardRepository.saveAll(assignOrder(cards.get(), ids));
+                    stepRepository.saveAll(assignOrder(cards.get(), ids));
                 }
             }
         }
     }
 
     public Page<CardDTO> getAllCardsOrdered(Long themeId, Pageable pageable) {
-        if (!themeRepository.existsById(themeId)) {
+        if (!goalsRepository.existsById(themeId)) {
             throw new RuntimeException("Bad input");
         }
-        Page<CardDTO> result = cardRepository.findCardsByThemeIdOrdered(themeId, pageable)
+        Page<CardDTO> result = stepRepository.findCardsByThemeIdOrdered(themeId, pageable)
                 .map(e -> CardDTO.builder()
                         .id(e.getPkid().getId())
                         .title(e.getTitle())
@@ -106,7 +108,7 @@ public class CardService {
 
     }
 
-    public List<Card> assignOrder(List<Card> result, List<Long> sortedIds) {
+    public List<Step> assignOrder(List<Step> result, List<Long> sortedIds) {
 
         Map<Long, Integer> idPositionMap = sortedIds.stream()
                 .collect(Collectors.toMap(id -> id, sortedIds::indexOf));

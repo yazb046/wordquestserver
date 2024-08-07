@@ -7,20 +7,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "\"T_THEME\"")
+@Table(name = "\"T_GOAL_TYPE\"")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Data
-public class Theme {
+public class GoalType {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String title;
-    @Column(length = 500)
+    private Integer id;
     private String description;
-    private Long userId;
-
-    @ManyToOne
-    private ThemeType themeType;
 }

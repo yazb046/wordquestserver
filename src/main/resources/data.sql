@@ -1,4 +1,4 @@
-INSERT INTO public."T_THEME_TYPE"  (description) VALUES ('Markdown'), ('Learn Language');
+INSERT INTO public."T_GOAL_TYPE"  (description) VALUES ('Markdown'), ('Learn Language'), ('Video stream');
 
 INSERT INTO public."T_DICT" (description) VALUES ('Deutsch');
 
